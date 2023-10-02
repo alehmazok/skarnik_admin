@@ -1,0 +1,9 @@
+.idea/
+ENV/
+logs/
+
+*.pyc
+
+.envrc
+
+secrets.json
