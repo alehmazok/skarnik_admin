@@ -1,6 +1,7 @@
 .idea/
 ENV/
 logs/
+static/
 
 *.pyc
 

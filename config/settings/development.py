@@ -1,3 +1,5 @@
+import os
+
 from .base import *
 
 DEBUG = True
@@ -17,3 +19,7 @@ MIDDLEWARE += [
 INTERNAL_IPS = ['127.0.0.1']
 
 AUTH_PASSWORD_VALIDATORS = []
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
