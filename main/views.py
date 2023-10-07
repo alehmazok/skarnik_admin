@@ -17,10 +17,9 @@ def get_word_by_id(req, word_id):
 
 
 @api_view(['GET'])
-def get_word_by_external_id(req):
+def get_word_by_external_id(req, direction: str, external_id: int):
     try:
-        external_id = int(req.query_params.get('external_id', '0'))
-        word = Word.objects.get(external_id=external_id)
+        word = Word.objects.get(direction=direction, external_id=external_id)
         serializer = WordSerializer(word)
         return Response(serializer.data)
     except Word.DoesNotExist as e:
