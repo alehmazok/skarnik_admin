@@ -96,7 +96,7 @@ DATABASES = {
         'NAME': get_secret('DATABASE_NAME'),
         'USER': get_secret('DATABASE_USER'),
         'PASSWORD': get_secret('DATABASE_PASSWORD'),
-        'HOST': 'localhost',
+        'HOST': get_secret('DATABASE_HOST'),
         'PORT': '3306',
         'OPTIONS': {
             'init_command': 'SET default_storage_engine=INNODB',
