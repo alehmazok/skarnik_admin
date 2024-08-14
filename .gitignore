@@ -8,3 +8,5 @@ static/*
 .envrc
 
 secrets.json
+
+*.sqlite3
