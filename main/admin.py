@@ -1,9 +1,10 @@
 from django.contrib import admin
+from reversion.admin import VersionAdmin
 
 from .models import Word
 
 
-class WordAdmin(admin.ModelAdmin):
+class WordAdmin(VersionAdmin):
     list_display = ('id', 'external_id', 'letter', 'direction', 'text')
     list_display_links = ('id', 'external_id')
     list_filter = ('letter', 'direction')
