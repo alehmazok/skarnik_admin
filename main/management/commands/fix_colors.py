@@ -18,8 +18,8 @@ class Command(BaseCommand):
     @staticmethod
     def _replace_color_code(text: str) -> str:
         # Regex pattern to match color="008000"
-        pattern = r'color:([0-9a-fA-F]{6})'
+        pattern = r'color="([0-9a-fA-F]{6})"'
         # Replacement pattern with a '#' added before the color code
-        replacement = r'color:#\1'  # Perform the substitution
+        replacement = r'color="#\1"'  # Perform the substitution
         result = re.sub(pattern, replacement, text)
         return result
