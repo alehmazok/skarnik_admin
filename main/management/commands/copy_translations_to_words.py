@@ -11,15 +11,16 @@ class Command(BaseCommand):
     n = 500
 
     def handle(self, *args, **options):
-        words = Word.objects.all()
-        translations = Translation.objects.all()
-        if len(translations) == 0:
+        self.stdout.write('Starting...')
+        count = Translation.objects.count()
+        if count  == 0:
             self.stderr.write('Table `translations` is empty. Fill the table before copying.')
             exit(1)
-        if len(words) > 0:
+        if Word.objects.count() > 0:
             self.stderr.write('Table `words` is not empty. Clear the table before copying.')
             exit(1)
-
+        self.stdout.write(f'Copying {count} translations...')
+        translations = Translation.objects.all()
         for i in range(0, len(translations), self.n):
             chunk = list(map(lambda t: t.to_word(), translations[i:i + self.n]))
             Word.objects.bulk_create(chunk)
