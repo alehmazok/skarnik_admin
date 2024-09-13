@@ -7,7 +7,7 @@ from main.models import Word
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
-        words = Word.objects.all()
+        words = Word.objects.get(pk=184988)
         for word in words:
             before = word.translation
             # self.stdout.write(f'Before text: {before}')
@@ -20,8 +20,8 @@ class Command(BaseCommand):
     @staticmethod
     def _replace_color_code(text: str) -> str:
         # Regex pattern to match color="008000"
-        pattern = r'color="([0-9a-fA-F]{6})"'
+        pattern = r'(&nbsp;)'
         # Replacement pattern with a '#' added before the color code
-        replacement = r'color="#\1"'  # Perform the substitution
+        replacement = r'<span>\1</span>'  # Perform the substitution
         result = re.sub(pattern, replacement, text)
         return result
