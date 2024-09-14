@@ -11,6 +11,8 @@ class Word(models.Model):
 
     class Meta:
         unique_together = ['external_id', 'direction']
+        verbose_name = 'Слова'
+        verbose_name_plural = 'Словы'
 
     def __str__(self):
         return f'({self.pk}) {self.text}'
