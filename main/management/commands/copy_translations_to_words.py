@@ -8,7 +8,7 @@ class Command(BaseCommand):
     Copy translations to words table.
     """
 
-    n = 500
+    chunk_size = 500
 
     def handle(self, *args, **options):
         self.stdout.write('Starting...')
@@ -21,8 +21,8 @@ class Command(BaseCommand):
             exit(1)
         self.stdout.write(f'Copying {count} translations...')
         translations = Translation.objects.all()
-        for i in range(0, len(translations), self.n):
-            chunk = list(map(lambda t: t.to_word(), translations[i:i + self.n]))
+        for i in range(0, len(translations), self.chunk_size):
+            chunk = list(map(lambda t: t.to_word(), translations[i:i + self.chunk_size]))
             Word.objects.bulk_create(chunk)
 
         self.stdout.write('All translations have been copied to `words`.')
