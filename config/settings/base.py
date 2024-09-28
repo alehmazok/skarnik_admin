@@ -242,3 +242,6 @@ REST_FRAMEWORK = {
     #     'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     # ],
 }
+
+TYPESENSE_KEY = get_secret('TYPESENSE_KEY')
+

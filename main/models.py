@@ -17,6 +17,16 @@ class Word(models.Model):
     def __str__(self):
         return f'({self.pk}) {self.text}'
 
+    def to_typesense(self):
+        return {
+            'id': str(self.pk),
+            'external_id': self.external_id,
+            'letter': self.letter,
+            'direction': self.direction,
+            'text': self.text,
+            'translation': self.translation,
+        }
+
 
 class Translation(models.Model):
     external_id = models.IntegerField()
