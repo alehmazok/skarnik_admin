@@ -6,7 +6,7 @@ from main.models import Word
 
 
 class Command(BaseCommand):
-    chunk_size = 500
+    chunk_size = 1000
 
     client = typesense.Client({
         'nodes': [{
@@ -44,6 +44,7 @@ class Command(BaseCommand):
                 'name': 'text',
                 'type': 'string',
                 'index': True,
+                'sort': True,
                 'locale': 'be',
             },
             {
@@ -53,7 +54,6 @@ class Command(BaseCommand):
                 'locale': 'be',
             },
         ],
-        'default_sorting_field': 'external_id'
     }
 
     def handle(self, *args, **options):
