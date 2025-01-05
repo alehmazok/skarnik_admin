@@ -1,8 +1,8 @@
-Django==5.0
-django-ckeditor==6.7.1
+Django==5.1.4
+django-ckeditor==6.7.2
 django-extensions==3.2.3
 django-reversion==5.1.0
 djangorestframework==3.15.2
-mysqlclient==2.2.4
+mysqlclient==2.2.6
 requests==2.32.3
 typesense==0.21.0
