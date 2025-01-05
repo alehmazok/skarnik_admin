@@ -8,6 +8,7 @@ class Word(models.Model):
     direction = models.CharField(max_length=31)
     text = models.CharField(max_length=127)
     translation = RichTextField()
+    redirect_to = models.URLField(null=True, blank=True)
 
     class Meta:
         unique_together = ['external_id', 'direction']
@@ -36,6 +37,7 @@ class Translation(models.Model):
     translation = RichTextField()
 
     class Meta:
+        managed = False
         db_table = 'translations'
 
     def to_word(self) -> Word:
