@@ -5,6 +5,7 @@ static/*
 
 *.pyc
 
+.env
 .envrc
 
 secrets.json
