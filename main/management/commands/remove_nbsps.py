@@ -7,7 +7,7 @@ from main.models import Word
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
-        words = Word.objects.get(pk=184988)
+        words = Word.objects.all()
         for word in words:
             before = word.translation
             # self.stdout.write(f'Before text: {before}')
