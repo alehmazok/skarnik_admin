@@ -9,6 +9,7 @@ class Word(models.Model):
     text = models.CharField(max_length=127)
     translation = RichTextField()
     redirect_to = models.URLField(null=True, blank=True)
+    stress = models.CharField(max_length=127, null=True, blank=True, help_text='Націск')
 
     class Meta:
         unique_together = ['external_id', 'direction']

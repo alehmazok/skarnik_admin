@@ -15,7 +15,7 @@ class WordAdmin(VersionAdmin):
 
     fieldsets = (
         ('Word Information', {
-            'fields': ('external_id', 'letter', 'direction', 'redirect_to', 'text', 'translation'),
+            'fields': ('external_id', 'letter', 'direction', 'redirect_to', 'text', 'stress', 'translation'),
         }),
     )
 
