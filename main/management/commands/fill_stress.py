@@ -81,17 +81,17 @@ class Command(BaseCommand):
         self.stdout.write(f'Words without stress: {qs.count()}')
 
         for w in qs:
-            self.stdout.write(f'{w}')
             stress = self._fetch_stress(w.text)
-            self.stdout.write(f'Stress: {stress}')
             if stress:
+                self.stdout.write(f'{w} => {stress}')
                 w.stress = stress
                 w.save()
+            else:
+                self.stderr.write(f'{w} => {stress}')
 
-    @staticmethod
-    def _fetch_stress(lemma) -> str | None:
+    def _fetch_stress(self, word) -> str | None:
         url = "https://starnik.by/api/wordList"
-        params = {"lemma": lemma}
+        params = {"lemma": word}
         headers = {
             'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36',
         }
@@ -107,13 +107,16 @@ class Command(BaseCommand):
 
             # Extract the 'word' field value from the first element in 'word_list'
             if "word_list" in data and data["word_list"]:
+                lemma = data["word_list"][0]["lemma"]
+                if lemma != word:
+                    return None
                 first_word = data["word_list"][0]["word"]
-                print(f"First word: {first_word}")
+                # print(f"First word: {first_word}")
                 return first_word
             else:
-                print("No words found in the 'word_list'.")
+                self.stderr.write('No words found in the "word_list".')
                 return None
 
         except requests.exceptions.RequestException as e:
-            print(f"An error occurred: {e}")
+            self.stderr.write(f'An error occurred: {e}')
             return None
