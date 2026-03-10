@@ -12,3 +12,5 @@ secrets.json
 
 *.sqlite3
 *.sql.gz
+
+.DS_Store
