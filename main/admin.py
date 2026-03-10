@@ -6,7 +6,7 @@ from .models import Word, Translation
 
 
 class WordAdmin(VersionAdmin):
-    list_display = ('id', 'external_id', 'letter', 'direction', 'text', 'redirect_to')
+    list_display = ('id', 'external_id', 'direction', 'text', 'stress', 'redirect_to')
     readonly_fields = ('id', 'external_id', 'letter', 'direction')
     list_display_links = ('id', 'external_id')
     list_filter = (LetterListFilter, DirectionListFilter)
