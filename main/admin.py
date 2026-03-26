@@ -18,7 +18,7 @@ class WordAdmin(VersionAdmin):
     )
     list_display_links = ("id", "external_id")
     list_filter = (LetterListFilter, DirectionListFilter)
-    search_fields = ("text", "translation")
+    search_fields = ("^text", "external_id")
     list_per_page = 100
 
     fieldsets = (

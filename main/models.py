@@ -6,7 +6,7 @@ class Word(models.Model):
     external_id = models.IntegerField()
     letter = models.CharField(max_length=1)
     direction = models.CharField(max_length=31)
-    text = models.CharField(max_length=127)
+    text = models.CharField(max_length=127, db_index=True)
     translation = HTMLField()
     redirect_to = models.URLField(null=True, blank=True)
     stress = models.CharField(max_length=127, null=True, blank=True, help_text="Націск")
