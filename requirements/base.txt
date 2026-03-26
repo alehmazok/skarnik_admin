@@ -4,6 +4,7 @@ django-extensions==4.1
 django-reversion==6.1.0
 django-tinymce==5.0.0
 djangorestframework==3.16.1
+lxml==6.0.2
 mysqlclient==2.2.8
 requests==2.32.5
 typesense==0.21.0
