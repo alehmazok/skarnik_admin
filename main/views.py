@@ -1,8 +1,8 @@
 from rest_framework import generics
 from rest_framework.exceptions import NotFound
 
-from .models import Word
-from .serializers import WordSerializer
+from .models import StressWord, Word
+from .serializers import StressWordDetailSerializer, StressWordListSerializer, WordSerializer
 
 
 class WordByIdRetrieveAPIView(generics.RetrieveAPIView):
@@ -28,3 +28,16 @@ class WordByExternalIdRetrieveAPIView(generics.RetrieveAPIView):
 
     def get_queryset(self):
         return Word.objects.all()
+
+
+class StressWordListAPIView(generics.ListAPIView):
+    serializer_class = StressWordListSerializer
+
+    def get_queryset(self):
+        word = self.request.query_params.get('word', '')
+        return StressWord.objects.filter(word=word.lower())
+
+
+class StressWordRetrieveAPIView(generics.RetrieveAPIView):
+    queryset = StressWord.objects.all()
+    serializer_class = StressWordDetailSerializer

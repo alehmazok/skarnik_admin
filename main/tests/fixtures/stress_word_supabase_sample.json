@@ -1,0 +1,54 @@
+[
+  {
+    "id": 1,
+    "word": "рука",
+    "lemma": "рука́",
+    "table_name": "Nouns",
+    "source_pdg_id": 1000001,
+    "rows": [
+      {
+        "title": "Назоўны<br><span class=\"pytanne\">хто? што?</span>",
+        "content": "<b> рука́ </b><br><br><span class=\"skarot\">мн.</span>&nbsp;<b> ру́кі </b>"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "word": "пара",
+    "lemma": "па́ра",
+    "table_name": "Nouns",
+    "source_pdg_id": 1021373,
+    "rows": [
+      {
+        "title": "Пара (пара)",
+        "content": "<b> па́ра </b>"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "word": "пара",
+    "lemma": "па́ра",
+    "table_name": "Nouns",
+    "source_pdg_id": 1021374,
+    "rows": [
+      {
+        "title": "Пара (стеам)",
+        "content": "<b> па́ра </b>"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "word": "пара",
+    "lemma": "пара́",
+    "table_name": "Nouns",
+    "source_pdg_id": 1179072,
+    "rows": [
+      {
+        "title": "Пара (агульнае)",
+        "content": "<b> пара́ </b>"
+      }
+    ]
+  }
+]

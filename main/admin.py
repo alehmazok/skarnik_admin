@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 from reversion.admin import VersionAdmin
 
 from .admin_filters import LetterListFilter, DirectionListFilter
-from .models import Word, Translation
+from .models import StressWord, Word, Translation
 from .supabase_sync import push_word, pull_word
 
 
@@ -171,6 +171,14 @@ class TranslationAdmin(VersionAdmin):
             },
         ),
     )
+
+
+@admin.register(StressWord)
+class StressWordAdmin(admin.ModelAdmin):
+    list_display = ("id", "word", "lemma", "table_name", "source_pdg_id")
+    list_filter = ("table_name",)
+    search_fields = ("word", "lemma")
+    list_per_page = 100
 
 
 admin.site.register(Word, WordAdmin)

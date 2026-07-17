@@ -38,6 +38,21 @@ class Word(models.Model):
         return f"/{self.direction}/{self.external_id}"
 
 
+class StressWord(models.Model):
+    word = models.CharField(max_length=127, db_index=True, help_text="Слова без націску (ключ пошуку)")
+    lemma = models.CharField(max_length=127, help_text="Слова з націскам")
+    table_name = models.CharField(max_length=31, null=True, blank=True, help_text="Частка мовы")
+    source_pdg_id = models.BigIntegerField(unique=True, null=True, blank=True, help_text="ID парадыгмы ў GrammarDB")
+    rows = models.JSONField(help_text="Радкі табліцы скланення/спражэння")
+
+    class Meta:
+        verbose_name = "Слова з націскам"
+        verbose_name_plural = "Словы з націскам"
+
+    def __str__(self):
+        return self.lemma
+
+
 class Translation(models.Model):
     external_id = models.IntegerField()
     letter = models.CharField(max_length=1)
