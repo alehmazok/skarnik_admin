@@ -50,9 +50,9 @@ class ImportStressWordsFromSupabaseTestCase(TestCase):
             call_command("import_stress_words_from_supabase", "--page-size", "2", stdout=StringIO())
 
         self.assertEqual(StressWord.objects.count(), len(self.rows))
-        rука = StressWord.objects.get(source_pdg_id=1000001)
-        self.assertEqual(rука.word, "рука")
-        self.assertEqual(rука.lemma, "рука́")
+        рука = StressWord.objects.get(source_pdg_id=1000001)
+        self.assertEqual(рука.word, "рука")
+        self.assertEqual(рука.lemma, "рука́")
 
         homonyms = StressWord.objects.filter(word="пара")
         self.assertEqual(homonyms.count(), 3)
@@ -83,8 +83,8 @@ class ImportStressWordsFromSupabaseTestCase(TestCase):
             call_command("import_stress_words_from_supabase", "--page-size", "2", stdout=StringIO())
 
         self.assertEqual(StressWord.objects.count(), len(self.rows))
-        rука = StressWord.objects.get(source_pdg_id=1000001)
-        self.assertEqual(rука.lemma, "ру́ка-зменена")
+        рука = StressWord.objects.get(source_pdg_id=1000001)
+        self.assertEqual(рука.lemma, "ру́ка-зменена")
 
     def test_limit_truncates(self):
         with self._patched_client():

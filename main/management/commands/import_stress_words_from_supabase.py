@@ -27,6 +27,9 @@ class Command(BaseCommand):
         start = 0
         fetched = 0
         total_created_or_updated = 0
+        supports_target = connections[
+            StressWord.objects.db
+        ].features.supports_update_conflicts_with_target
 
         while True:
             if limit is not None and fetched >= limit:
@@ -61,9 +64,6 @@ class Command(BaseCommand):
                     )
                     for row in rows
                 ]
-                supports_target = connections[
-                    StressWord.objects.db
-                ].features.supports_update_conflicts_with_target
                 StressWord.objects.bulk_create(
                     chunk,
                     batch_size=1000,
