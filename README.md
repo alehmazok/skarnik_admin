@@ -5,7 +5,7 @@ Django administration backend for the [Skarnik](https://skarnik.by) Belarusian d
 ## What It Does
 
 - Manages word entries with HTML-formatted translations across three dictionary directions (Belarusian→Russian, Russian→Belarusian, explanatory ТСБМ)
-- Tracks stress marks (accent positions) on words, enriched via external APIs
+- Tracks stress marks (accent positions) on words, enriched via external APIs and a Supabase-sourced `StressWord` table
 - Provides a read-only REST API consumed by the skarnik.by frontend
 - Syncs the word index to Typesense for full-text search
 
@@ -16,6 +16,7 @@ Django administration backend for the [Skarnik](https://skarnik.by) Belarusian d
 - **Typesense** for full-text search
 - **TinyMCE** for rich-text translation editing
 - **django-reversion** for change history in the admin
+- **Supabase** as source for `StressWord` import/sync
 
 ## Quick Start
 
@@ -25,8 +26,9 @@ python -m venv ENV
 source ENV/bin/activate
 pip install -r requirements/development.txt
 
-# Configure secrets (copy template and fill in DB credentials, Typesense key, etc.)
-cp secrets.json.example secrets.json  # edit as needed
+# Configure secrets — create secrets.json at project root with:
+# SECRET_KEY, DATABASE_NAME, DATABASE_USER, DATABASE_PASSWORD, DATABASE_HOST,
+# TYPESENSE_KEY, SUPABASE_URL, SUPABASE_KEY
 
 # Apply migrations
 python manage.py migrate --settings=config.settings
@@ -47,6 +49,8 @@ MODE=testing python manage.py test main --settings=config.settings
 |----------|-------------|
 | `GET /api/words/<id>/` | Word by primary key |
 | `GET /api/words/<direction>/<external_id>/` | Word by direction + external ID |
+| `GET /api/stress_words/?word=<text>` | StressWord entries matching a word (lowercased) |
+| `GET /api/stress_words/<id>/` | StressWord by primary key |
 
 Directions: `be-ru`, `ru-be`, `tsbm`
 
