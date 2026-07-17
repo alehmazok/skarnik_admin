@@ -24,7 +24,7 @@ class Command(BaseCommand):
         dry_run = options["dry_run"]
 
         client = _client()
-        start = 0
+        last_id = 0
         fetched = 0
         total_created_or_updated = 0
         supports_target = connections[
@@ -35,15 +35,16 @@ class Command(BaseCommand):
             if limit is not None and fetched >= limit:
                 break
 
-            end = start + page_size - 1
+            page_limit = page_size
             if limit is not None:
-                end = min(end, start + (limit - fetched) - 1)
+                page_limit = min(page_limit, limit - fetched)
 
             response = (
                 client.table(TABLE)
                 .select(COLUMNS)
                 .order("id")
-                .range(start, end)
+                .gt("id", last_id)
+                .limit(page_limit)
                 .execute()
             )
             rows = response.data
@@ -73,7 +74,7 @@ class Command(BaseCommand):
                 )
                 total_created_or_updated += len(chunk)
 
-            start += page_size
+            last_id = rows[-1]["id"]
 
         if dry_run:
             self.stdout.write(self.style.SUCCESS(f"Dry run: would import {fetched} rows."))

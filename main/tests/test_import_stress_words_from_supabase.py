@@ -19,19 +19,20 @@ def load_fixture():
 
 
 def make_mock_client(rows):
-    """Build a mock Supabase client that paginates over `rows` via .range(start, end)."""
+    """Build a mock Supabase client that paginates over `rows` via .gt("id", last_id).limit(n)."""
     client = MagicMock()
 
     def execute_side_effect():
         query = client.table.return_value.select.return_value.order.return_value
-        start, end = query.range.call_args[0]
-        page = rows[start:end + 1]
+        _, last_id = query.gt.call_args[0]
+        (page_limit,) = query.gt.return_value.limit.call_args[0]
+        page = [row for row in rows if row["id"] > last_id][:page_limit]
         response = MagicMock()
         response.data = page
         return response
 
     query_mock = client.table.return_value.select.return_value.order.return_value
-    query_mock.range.return_value.execute.side_effect = execute_side_effect
+    query_mock.gt.return_value.limit.return_value.execute.side_effect = execute_side_effect
     return client
 
 
