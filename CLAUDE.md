@@ -112,18 +112,18 @@ Run with: `python manage.py <command> [options]`
 # Activate virtual environment
 source ENV/bin/activate
 
-# Run development server
-python manage.py runserver --settings=config.settings.development
+# Run development server (MODE defaults to development, so it can be omitted)
+python manage.py runserver --settings=config.settings
 
 # Run tests
-python manage.py test main --settings=config.settings.testing
+MODE=testing python manage.py test main --settings=config.settings
 
 # Django shell (with auto-imports via django-extensions)
-python manage.py shell_plus --settings=config.settings.development
+python manage.py shell_plus --settings=config.settings
 
 # Migrations
-python manage.py makemigrations
-python manage.py migrate
+MODE=testing python manage.py makemigrations --settings=config.settings
+MODE=testing python manage.py migrate --settings=config.settings
 
 # Sync search index
 python manage.py sync_typesense
@@ -134,7 +134,13 @@ python manage.py fill_stress_bnk --direction be-ru
 
 ## Settings & Secrets
 
-Settings module is selected via `DJANGO_SETTINGS_MODULE` environment variable (set in `.envrc`).
+`DJANGO_SETTINGS_MODULE` must be `config.settings` (the package, not a submodule) — `config/settings/__init__.py` does `from .base import *` and then, based on the `MODE` env var (`development` default, or `testing`/`production`), imports the matching submodule on top. **Never point `DJANGO_SETTINGS_MODULE`/`--settings` directly at `config.settings.development`/`.testing`/`.production`** — that re-imports the submodule a second time standalone, before `base.py` finishes its own settings access (e.g. `tinymce.settings` reads `django.conf.settings` mid-load), and crashes with `NameError: name 'INSTALLED_APPS' is not defined` or silently empty `INSTALLED_APPS`. Always use `--settings=config.settings` and set `MODE` instead:
+
+```bash
+python manage.py runserver --settings=config.settings          # MODE unset → development
+MODE=testing python manage.py test main --settings=config.settings
+MODE=production python manage.py ... --settings=config.settings
+```
 
 Secrets (DB credentials, Typesense API key, etc.) are loaded from `secrets.json` at project root — never commit this file.
 
@@ -147,12 +153,12 @@ Configured in `config/settings/base.py`:
 
 ## Testing
 
-- Uses `config.settings.testing` (in-memory SQLite, no migrations needed via `--keepdb`)
+- Uses `MODE=testing` (in-memory SQLite, no migrations needed via `--keepdb`)
 - Test files in `main/tests/`
 - Framework: `django.test.TestCase` + `rest_framework.test.APITestCase`
 
 ```bash
-python manage.py test main --settings=config.settings.testing
+MODE=testing python manage.py test main --settings=config.settings
 ```
 
 ## Code Conventions
