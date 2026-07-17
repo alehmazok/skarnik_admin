@@ -29,16 +29,16 @@ pip install -r requirements/development.txt
 cp secrets.json.example secrets.json  # edit as needed
 
 # Apply migrations
-python manage.py migrate --settings=config.settings.development
+python manage.py migrate --settings=config.settings
 
-# Run development server
-python manage.py runserver --settings=config.settings.development
+# Run development server (MODE defaults to development, so it can be omitted)
+python manage.py runserver --settings=config.settings
 ```
 
 ## Running Tests
 
 ```bash
-python manage.py test main --settings=config.settings.testing
+MODE=testing python manage.py test main --settings=config.settings
 ```
 
 ## API
@@ -61,6 +61,9 @@ python manage.py fill_stress_bnk --direction be-ru [--dry-run] [--limit N]
 
 # Copy legacy translations table to words table
 python manage.py copy_translations_to_words
+
+# Import StressWord rows from Supabase
+python manage.py import_stress_words_from_supabase [--page-size N] [--limit N] [--dry-run]
 ```
 
 See `CLAUDE.md` for the full command reference and developer guide.
@@ -76,10 +79,12 @@ logs/            Rotating application and DB query logs
 
 ## Settings
 
-Select the settings module via `DJANGO_SETTINGS_MODULE` (configured in `.envrc`):
+Always pass `--settings=config.settings` (the package, not a submodule) and select the mode via the `MODE` env var:
 
-| Module | Use |
+| `MODE` | Use |
 |--------|-----|
-| `config.settings.development` | Local development |
-| `config.settings.testing` | Test runs (in-memory SQLite) |
-| `config.settings.production` | Production server |
+| _(unset)_ / `development` | Local development |
+| `testing` | Test runs (in-memory SQLite) |
+| `production` | Production server |
+
+Pointing `--settings` directly at `config.settings.development`/`.testing`/`.production` re-imports that submodule standalone before `base.py` finishes loading, and crashes with `NameError: name 'INSTALLED_APPS' is not defined`.
