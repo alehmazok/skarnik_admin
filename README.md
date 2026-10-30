@@ -95,4 +95,4 @@ Pointing `--settings` directly at `config.settings.development`/`.testing`/`.pro
 
 ## License
 
-Source code licensed under the [MIT License](LICENSE). Dictionary content (including the bundled `words.json.gz` data dump) is © its respective rights holders and is not covered by this license. Stress data imported from [GrammarDB](https://github.com/Belarus/GrammarDB) is licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
+Source code licensed under the [MIT License](LICENSE). Dictionary content is © its respective rights holders and is not covered by this license, and data dumps of it (such as `words.json.gz`) are kept out of the repository. Stress data imported from [GrammarDB](https://github.com/Belarus/GrammarDB) is licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
