@@ -92,3 +92,7 @@ Always pass `--settings=config.settings` (the package, not a submodule) and sele
 | `production` | Production server |
 
 Pointing `--settings` directly at `config.settings.development`/`.testing`/`.production` re-imports that submodule standalone before `base.py` finishes loading, and crashes with `NameError: name 'INSTALLED_APPS' is not defined`.
+
+## License
+
+Source code licensed under the [MIT License](LICENSE). Dictionary content is © its respective rights holders and is not covered by this license, and data dumps of it (such as `words.json.gz`) are kept out of the repository. Stress data imported from [GrammarDB](https://github.com/Belarus/GrammarDB) is licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
