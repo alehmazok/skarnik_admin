@@ -17,6 +17,7 @@ AI agent guide for working in this repository.
 | Rich text editor | TinyMCE 5 (via django-tinymce 5.0.0) |
 | HTML parsing | BeautifulSoup4 + lxml |
 | Version history | django-reversion 6.1.0 |
+| Error reporting | sentry-sdk 2.74.0 (production only) |
 | App server | uWSGI (production) |
 | Dev extras | django-extensions, django-debug-toolbar |
 
@@ -143,6 +144,8 @@ MODE=production python manage.py ... --settings=config.settings
 ```
 
 Secrets (DB credentials, Typesense API key, etc.) are loaded from `secrets.json` at project root — never commit this file.
+
+**Sentry:** `config/sentry.py`, started only from `production.py` and only when `SENTRY_DSN` is in `secrets.json` (or the env). Org `skarnik`, project `skarnik_admin`. Never call `init_sentry` from base/development/testing; keep `send_default_pii=False`. Use `logger.error(...)`/`logger.exception(...)` for caught errors you want reported.
 
 ## Logging
 

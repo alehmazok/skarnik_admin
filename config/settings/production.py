@@ -10,3 +10,8 @@ ALLOWED_HOSTS = [
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+# Sentry error reporting: on only when secrets.json (or the environment) has SENTRY_DSN.
+from config.sentry import init_sentry
+
+init_sentry(secrets)
