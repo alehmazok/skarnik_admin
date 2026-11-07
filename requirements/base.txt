@@ -7,5 +7,6 @@ djangorestframework==3.16.1
 lxml==6.0.2
 mysqlclient==2.2.8
 requests==2.32.5
+sentry-sdk[django]==2.74.0
 supabase==2.28.3
 typesense==0.21.0

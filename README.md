@@ -17,6 +17,7 @@ Django administration backend for the [Skarnik](https://skarnik.by) Belarusian d
 - **TinyMCE** for rich-text translation editing
 - **django-reversion** for change history in the admin
 - **Supabase** as source for `StressWord` import/sync
+- **Sentry** for error reporting (production only)
 
 ## Quick Start
 
@@ -29,6 +30,7 @@ pip install -r requirements/development.txt
 # Configure secrets — create secrets.json at project root with:
 # SECRET_KEY, DATABASE_NAME, DATABASE_USER, DATABASE_PASSWORD, DATABASE_HOST,
 # TYPESENSE_KEY, SUPABASE_URL, SUPABASE_KEY
+# (optional, production only: SENTRY_DSN — see Error reporting)
 
 # Apply migrations
 python manage.py migrate --settings=config.settings
@@ -92,6 +94,24 @@ Always pass `--settings=config.settings` (the package, not a submodule) and sele
 | `production` | Production server |
 
 Pointing `--settings` directly at `config.settings.development`/`.testing`/`.production` re-imports that submodule standalone before `base.py` finishes loading, and crashes with `NameError: name 'INSTALLED_APPS' is not defined`.
+
+## Error reporting
+
+Errors go to [Sentry](https://sentry.io) (org `skarnik`, project `skarnik_admin`), the same org as the iOS and Android apps. `config/sentry.py` is started only by `config/settings/production.py`, so development and test runs never report. It covers unhandled exceptions in views and the admin, `ERROR` log records, and management commands run with `MODE=production`.
+
+Sentry stays off until a DSN is configured. Keys in `secrets.json` (each one can also be an environment variable of the same name; `secrets.json` wins):
+
+| Key | Required | Meaning |
+|-----|----------|---------|
+| `SENTRY_DSN` | yes, to turn Sentry on | DSN of the `skarnik_admin` project |
+| `SENTRY_ENVIRONMENT` | no | Defaults to `production` |
+| `SENTRY_TRACES_SAMPLE_RATE` | no | `0.0`–`1.0`; defaults to `0.0` (errors only, no performance traces) |
+
+No personal data is sent (`send_default_pii=False`). The release is the deployed checkout's git commit, detected by the SDK; set `SENTRY_RELEASE` in the uWSGI environment to override it. `DisallowedHost` errors from bots are ignored.
+
+## Acknowledgements
+
+[Sentry](https://sentry.io) provides error reporting through its open source sponsorship program.
 
 ## License
 
